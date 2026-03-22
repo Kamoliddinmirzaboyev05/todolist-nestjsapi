@@ -57,18 +57,36 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Deployment
+## Deployment to Render.com
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+### Prerequisites
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+1. Create a **Neon.tech** account and a PostgreSQL database.
+2. Create a **Render.com** account.
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+### Setup Steps
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+1. **Database Connection**:
+   - Copy your Neon connection string.
+   - It should look like: `postgresql://user:password@host/dbname?sslmode=require`.
+
+2. **Render Configuration**:
+   - Create a new **Web Service** on Render.
+   - Connect your GitHub repository.
+   - Set the following **Environment Variables**:
+     - `DATABASE_URL`: Your Neon connection string.
+     - `NODE_ENV`: `production`
+     - `PORT`: `3000` (or your preferred port)
+
+3. **Build & Start Commands**:
+   - **Build Command**: `npm install && npm run build`
+   - **Start Command**: `npm run start:prod`
+
+### Automatic Migrations
+The project is configured to automatically run `prisma migrate deploy` during the startup process (`npm run start:prod`). This ensures your database schema is always up to date with your code.
+
+### Swagger Documentation
+Once deployed, you can access the API documentation at `https://your-app-name.onrender.com/api`.
 
 ## Resources
 
